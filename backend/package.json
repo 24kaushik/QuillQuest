@@ -4,7 +4,7 @@
   "description": "This is the backend of the website QuillQuest.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./index.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,15 @@
   "bugs": {
     "url": "https://github.com/24kaushik/QuillQuest/issues"
   },
-  "homepage": "https://github.com/24kaushik/QuillQuest#readme"
+  "homepage": "https://github.com/24kaushik/QuillQuest#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "mongoose": "^7.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
 }
