@@ -4,7 +4,8 @@
   "description": "This is the backend of the website QuillQuest.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./index.js"
+    "dev": "nodemon ./index.js",
+    "vercel-build": "echo hello"
   },
   "repository": {
     "type": "git",

@@ -23,4 +23,4 @@ app.use('/blog', require("./routes/blog"))
 
 app.listen(port, ()=>{console.log(`QuillQuest backend running on http://localhost:${port}`)})
 
-// export default app; 
+module.exports = app; 
