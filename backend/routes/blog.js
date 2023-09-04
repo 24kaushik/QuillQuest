@@ -47,10 +47,13 @@ Router.post('/create', fetchUser, [
         // Creating the blog and saving it into the database.
         const userID = req.user.id;
         const user = await User.findById(userID).select('-password');
-        const username = user.username;
+        if(user){
+            const username = user.username;
         const blog = new Blog({ title, content, author: username });
         const saveBlog = await blog.save();
         return res.status(200).json({ success: true, blog: saveBlog });
+        }
+        res.status(401).send({ error: "Please authenticate using a valid token!" })
 
     } catch (error) {
         console.log(error.message)
@@ -70,8 +73,10 @@ Router.get('/getblog/:id', async (req, res) => {
             return res.status(200).json({success: true, blog})
         }
 
+        res.status(404).json({success:false, error: `No blog found`})
+
     } catch (error) {
-        res.status(404).json({success:false, error: `No blog found with the id ${req.params.id}`})
+        res.status(404).json({success:false, error: `No blog found`})
     }
 
 })
