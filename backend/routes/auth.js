@@ -129,8 +129,12 @@ Router.post('/getuser', fetchUser, async (req, res) => {
         // Finding a user with the userID
         const userID = req.user.id;
         const user = await User.findById(userID).select('-password');
-        success = true;
-        res.status(200).json({ success, user });
+        if (user) {
+            success = true;
+            return res.status(200).json({ success, user });
+        }
+        res.status(401).send({ error: "Please authenticate using a valid token!" })
+
     } catch (error) {
         success = false;
         console.log(error.message);
