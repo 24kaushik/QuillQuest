@@ -18,6 +18,7 @@ app.use('/test', (req,res)=>{
 
 //Routes
 app.use('/auth', require("./routes/auth"))
+app.use('/blog', require("./routes/blog"))
 
 
 app.listen(port, ()=>{console.log(`QuillQuest backend running on http://localhost:${port}`)})
