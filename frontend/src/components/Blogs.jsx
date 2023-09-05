@@ -25,15 +25,11 @@ const Blogs = () => {
   useEffect(() => {
     getNotes()
   }, [])
-  useEffect(() => {
-    console.log(blogs)
-  }, [blogs])
-
 
   return (
     <div className='flex flex-wrap gap-4 justify-center'>
 
-      {blogs.map(e => <Blogcard title={e.title} content={e.content} author={e.author} id={e._id} />)}
+      {blogs.map(e => <Blogcard title={e.title} content={e.content} author={e.author} key={e._id} id={e._id}/>)}
 
 
 
