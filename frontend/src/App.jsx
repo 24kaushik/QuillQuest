@@ -17,7 +17,6 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Home />} />
         </Routes>
-
         <Footer />
       </Router>
     </>
