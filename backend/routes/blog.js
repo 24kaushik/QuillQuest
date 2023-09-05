@@ -23,7 +23,7 @@ Router.get('/fetchall', async (req, res) => {
 //Route 2: Creating a Blog using: /create . Login required
 Router.post('/create', fetchUser, [
     body('title', 'Title must be atleast 4 characters long!').isLength({ min: 4 }),
-    body('title', 'Title must be shorter than 50 characters!').isLength({ max: 50 }),
+    body('title', 'Title must be shorter than 100 characters!').isLength({ max: 100 }),
     body('content', 'Content must be atleast 10 characters long!').isLength({ min: 10 }),
     body('content', 'Content must be shorter than 4000 characters!').isLength({ max: 4000 })
 ], async (req, res) => {
