@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
-    "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "!./src/components/Navbar.jsx"
   ],
   theme: {
     extend: {},
   },
   plugins: [],
+  darkMode: 'class'
 }
