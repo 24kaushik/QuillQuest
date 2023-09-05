@@ -11,19 +11,25 @@ const Blogs = () => {
 
   const getNotes = async () => {
     setLoading(true);
-    const response = await fetch(`https://quillquest-backend.vercel.app/blog/fetchall`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    try {
+      const response = await fetch(`https://quillquest-backend.vercel.app/blog/fetchall`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      const data = await response.json()
+      if (data.success) {
+        setBlogs(data.blogs)
+        setLoading(false)
+      } else {
+        alert("failed fetching all blogs")
       }
-    })
-    const data = await response.json()
-    if (data.success) {
-      setBlogs(data.blogs)
-      setLoading(false)
-    } else {
-      alert("failed fetching all blogs")
+    } catch (error) {
+      console.log(error)
+      alert('Failed to fetch Blogs. Please try refreshing.')
     }
+
   }
 
   useEffect(() => {
@@ -32,8 +38,8 @@ const Blogs = () => {
 
   return (
     <div className='flex flex-wrap gap-4 justify-center'>
-      {loading && <Loader/>}
-      {blogs.map(e => <Blogcard title={e.title} content={e.content} author={e.author} key={e._id} id={e._id}/>)}
+      {loading && <Loader />}
+      {blogs.map(e => <Blogcard title={e.title} content={e.content} author={e.author} key={e._id} id={e._id} />)}
     </div>
   )
 }
