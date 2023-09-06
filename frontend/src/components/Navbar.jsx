@@ -19,7 +19,7 @@ const Navbar = () => {
                                 <Link className="nav-link font-outfit" to="/write">Write Blog</Link>
                             </li>
                         </ul>
-                        <button className="btn btn-outline-primary font-outfit">Login</button>
+                        <Link to='/login'><button className="btn btn-outline-primary font-outfit">Login</button></Link>
                         <button className="btn btn-primary mx-3 font-outfit">Sign up</button>
                     </div>
                 </div>
