@@ -3,7 +3,7 @@ import Blogcard from './Blogcard'
 import Loader from "./Loader"
 
 
-const Blogs = () => {
+const Blogs = (props) => {
 
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const Blogs = () => {
       })
       const data = await response.json()
       if (data.success) {
-        setBlogs(data.blogs)
+        setBlogs(data.blogs.reverse())
         setLoading(false)
       } else {
         alert("failed fetching all blogs")
