@@ -95,7 +95,7 @@ Router.post('/login', [
 
         if (!user) {
             success = false;
-            return res.status(401).json({ success, error: "Please try to login with correct credentialss!" });
+            return res.status(401).json({ success, error: "Please try to login with correct credentials!" });
         }
 
         const passwordCompare = await bcrypt.compare(password, user.password);
