@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = (props) => {
-    const [disabled, setDisabled] = useState(true);
+    const [disabled, setDisabled] = useState(false);
     const [credentials, setCredentials] = useState({ username: '', password: '' })
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -50,7 +50,7 @@ const Login = (props) => {
                     <input type="password" value={credentials.password} onChange={handleChange} autoComplete="on" name="password" className="form-control border-solid border-gray-300" id="password" required />
                 </div>
                 <div id="emailHelp" className="form-text my-2">Dont have an account? <Link className='text-blue-600 underline' to={'/signup'}>Create one.</Link></div>
-                <button type="submit" className="btn btn-primary bg-blue-600 mt-3">Submit</button>
+                <button type="submit" className="btn btn-primary bg-blue-600 mt-3" disabled={disabled}>Submit</button>
             </form>
         </div>
     )

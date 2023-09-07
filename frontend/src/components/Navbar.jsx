@@ -1,7 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
+    const handleLogout= (e)=>{
+        localStorage.removeItem('token');
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -19,8 +22,9 @@ const Navbar = () => {
                                 <Link className="nav-link font-outfit" to="/write">Write Blog</Link>
                             </li>
                         </ul>
-                        <Link to='/login'><button className="btn btn-outline-primary font-outfit">Login</button></Link>
-                        <button className="btn btn-primary mx-3 font-outfit">Sign up</button>
+                        {!localStorage.getItem('token')? <><Link to='/login'><button className="btn btn-outline-primary font-outfit">Login</button></Link>
+                        <Link to="/signup"><button className="btn btn-primary mx-3 font-outfit">Sign up</button></Link></>: <><button className='btn btn-primary' onClick={handleLogout}>Log Out</button></>}
+                        
                     </div>
                 </div>
             </nav>

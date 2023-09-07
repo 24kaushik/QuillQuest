@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Login from './components/Login';
 import Alert from './components/Alert';
+import SignUp from './components/SignUp';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route exact path='/' element={<Home showAlert={showAlert} />} />
           <Route exact path='/write' element={<Writeblog showAlert={showAlert} />} />
           <Route exact path='/login' element={<Login showAlert={showAlert} />} />
+          <Route exact path='/signup' element={<SignUp showAlert={showAlert} />} />
         </Routes>
         <Footer />
       </Router>
