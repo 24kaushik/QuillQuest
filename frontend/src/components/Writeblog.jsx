@@ -33,16 +33,20 @@ const Writeblog = (props) => {
         })
 
         const json = await data.json()
-
-        if (json.success) {
-            props.showAlert("Blog added succesfully", "success")
-            document.getElementById('title').value = "";
-            document.getElementById('content').value = "";
-        } else if (!json.success) {
-            props.showAlert(json.error, "danger")
-        } else {
+        try {
+            if (json.success) {
+                props.showAlert("Blog added succesfully", "success")
+                document.getElementById('title').value = "";
+                document.getElementById('content').value = "";
+            } else if (!json.success) {
+                props.showAlert(json.error, "danger")
+            } else {
+                props.showAlert("Something went wrong! Please try again later", "danger")
+            }
+        } catch (error) {
             props.showAlert("Something went wrong! Please try again later", "danger")
         }
+
 
         setDisabled(false)
     }

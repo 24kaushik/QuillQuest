@@ -12,7 +12,8 @@ const ReadBlog = (props) => {
     const fetchblog = async (blogId) => {
         const response = await fetch(`https://quillquest-backend.vercel.app/blog/getblog/${id}`)
         const data = await response.json()
-        if (data.success) {
+        try {
+          if (data.success) {
             setloading(false)
             setBlog(data.blog)
         } else if (!data.success) {
@@ -22,7 +23,13 @@ const ReadBlog = (props) => {
             props.showAlert("Something went wrong! Please try again later.", "danger")
             setFound(false)
             setloading(false)
+        }  
+        } catch (error) {
+            props.showAlert("Something went wrong! Please try again later.", "danger")
+            setFound(false)
+            setloading(false) 
         }
+        
     }
 
     useEffect(() => {

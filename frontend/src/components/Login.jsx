@@ -22,16 +22,21 @@ const Login = (props) => {
         })
         const json = await response.json()
 
-        if (json.success) {
-            //save the authtoken and redirect
-            localStorage.setItem('token', json.authToken)
-            setDisabled(false)
-            props.showAlert("Logged in succesfully", "success")
-            navigate('/')
-        } else if (!json.success) {
-            props.showAlert(json.error, "danger")
-            setDisabled(false)
-        } else {
+        try {
+            if (json.success) {
+                //save the authtoken and redirect
+                localStorage.setItem('token', json.authToken)
+                setDisabled(false)
+                props.showAlert("Logged in succesfully", "success")
+                navigate('/')
+            } else if (!json.success) {
+                props.showAlert(json.error, "danger")
+                setDisabled(false)
+            } else {
+                props.showAlert("Something went wrong! Please try again later.")
+                setDisabled(false)
+            }
+        } catch (error) {
             props.showAlert("Something went wrong! Please try again later.")
             setDisabled(false)
         }
