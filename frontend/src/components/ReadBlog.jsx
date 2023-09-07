@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import Loader from './Loader'
-import NotFound from './NotFound';
+import Error from './Error';
 
 const ReadBlog = (props) => {
     const [found, setFound] = useState(true);
@@ -44,7 +44,7 @@ const ReadBlog = (props) => {
             Back to Home
         </Link>
         {loading && <Loader />}
-        {!found && <NotFound />}
+        {!found && <Error text="The blog you requested was not found!" />}
         {blog && <div className='container'>
             <h1 className='text-5xl text-center font-medium mt-3 mb-5 '>{blog.title}</h1>
             <p className='text-xl text-gray-700'>{blog.content}</p>

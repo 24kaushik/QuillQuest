@@ -12,6 +12,7 @@ import Login from './components/Login';
 import Alert from './components/Alert';
 import SignUp from './components/SignUp';
 import ReadBlog from './components/ReadBlog';
+import Error from './components/Error'
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Route exact path='/login' element={<Login showAlert={showAlert} />} />
           <Route exact path='/signup' element={<SignUp showAlert={showAlert} />} />
           <Route path='/blog/:id' element={<ReadBlog showAlert={showAlert} />} />
+          <Route path="*" element={<Error text="Error: 404. Page not found."/>} />
         </Routes>
         <Footer />
       </Router>
