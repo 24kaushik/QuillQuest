@@ -47,11 +47,11 @@ Router.post('/create', fetchUser, [
         // Creating the blog and saving it into the database.
         const userID = req.user.id;
         const user = await User.findById(userID).select('-password');
-        if(user){
+        if (user) {
             const username = user.username;
-        const blog = new Blog({ title, content, author: username });
-        const saveBlog = await blog.save();
-        return res.status(200).json({ success: true, blog: saveBlog });
+            const blog = new Blog({ title, content, author: username });
+            const saveBlog = await blog.save();
+            return res.status(200).json({ success: true, blog: saveBlog });
         }
         res.status(401).send({ error: "Please authenticate using a valid token!" })
 
@@ -69,16 +69,36 @@ Router.get('/getblog/:id', async (req, res) => {
         const blogID = req.params.id;
         const blog = await Blog.findById(blogID).select();
 
-        if(blog){
-            return res.status(200).json({success: true, blog})
+        if (blog) {
+            return res.status(200).json({ success: true, blog })
         }
 
-        res.status(404).json({success:false, error: `No blog found`})
+        res.status(404).json({ success: false, error: `No blog found` })
 
     } catch (error) {
-        res.status(404).json({success:false, error: `No blog found`})
+        res.status(404).json({ success: false, error: `No blog found` })
     }
 
+})
+
+//Route 4: Get blogs of a user by id using: /getuserblog
+Router.get('/getuserblog', fetchUser, async (req, res) => {
+    try {
+        // Finding a user with the userID
+        const userID = req.user.id;
+        const user = await User.findById(userID).select('-password');
+        if (user) {
+            success = true;
+            const blogs = await Blog.find({ author: user.username })
+            if (blogs.length!=0) {
+                res.status(200).json({ success: true, blogs })
+            }
+            res.status(404).send({ success: false, error: "No blogs found!" })
+        }
+        res.status(401).send({ success: false, error: "Please authenticate using a valid token!" })
+    } catch (error) {
+
+    }
 })
 
 module.exports = Router;
