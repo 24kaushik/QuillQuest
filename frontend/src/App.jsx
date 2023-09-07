@@ -11,10 +11,11 @@ import {
 import Login from './components/Login';
 import Alert from './components/Alert';
 import SignUp from './components/SignUp';
+import ReadBlog from './components/ReadBlog';
 
 function App() {
 
-  const [alert, setAlert] = useState({msg:"", type:''});
+  const [alert, setAlert] = useState({ msg: "", type: '' });
 
   const showAlert = (message, type) => {
     setAlert({
@@ -22,7 +23,7 @@ function App() {
       type: type
     })
     setTimeout(() => {
-      setAlert({msg:"", type:''});
+      setAlert({ msg: "", type: '' });
     }, 2500);
   }
 
@@ -36,6 +37,7 @@ function App() {
           <Route exact path='/write' element={<Writeblog showAlert={showAlert} />} />
           <Route exact path='/login' element={<Login showAlert={showAlert} />} />
           <Route exact path='/signup' element={<SignUp showAlert={showAlert} />} />
+          <Route path='/blog/:id' element={<ReadBlog showAlert={showAlert} />} />
         </Routes>
         <Footer />
       </Router>
