@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
     const handleLogout= (e)=>{
         localStorage.removeItem('token');
+        window.location.reload();
     }
     return (
         <div>
