@@ -52,7 +52,7 @@ const Profile = props => {
 
     const getBlogs = async () => {
         try {
-            const response = await fetch("http://localhost:6969/blog/getuserblog", {
+            const response = await fetch("https://quillquest-backend.vercel.app/blog/getuserblog", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
