@@ -19,9 +19,7 @@ const Profile = props => {
 
     const getUser = async () => {
         try {
-            if (!localStorage.getItem('token')) {
-                navigate('/login')
-            }
+
 
             let response = await fetch('https://quillquest-backend.vercel.app/auth/getuser', {
                 method: 'POST',
@@ -74,9 +72,14 @@ const Profile = props => {
         }
 
     }
-    
+
     useEffect(() => {
-        getUser()
+        if (!localStorage.getItem('token')) {
+            navigate('/login')
+        } else {
+            getUser()
+        }
+
     }, [])
 
     return (
@@ -89,7 +92,7 @@ const Profile = props => {
                 <button className='btn btn-danger my-2 mx-auto block' onClick={handleLogout}>Logout</button>
                 <h2 className='text-5xl font-josefins mt-14 ml-3'>User blogs:</h2></>}
             {errorCmp && <Error text={errorCmp} />}
-            {user && blogs && <div className='flex mt-4 flex-wrap gap-4 justify-center'>{blogs.map(e => <Blogcard title={e.title} content={e.content} author={e.author} id={e._id} key={e._id}/>)}</div>}
+            {user && blogs && <div className='flex mt-4 flex-wrap gap-4 justify-center'>{blogs.map(e => <Blogcard title={e.title} content={e.content} author={e.author} id={e._id} key={e._id} />)}</div>}
         </div>
     )
 }
