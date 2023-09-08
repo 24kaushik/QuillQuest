@@ -27,7 +27,7 @@ const Blogs = (props) => {
       }
     } catch (error) {
       console.log(error)
-      alert('Failed to fetch Blogs. Please try refreshing.')
+      props.showAlert('Failed to fetch Blogs. Please try refreshing.')
     }
 
   }
