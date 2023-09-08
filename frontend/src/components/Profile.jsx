@@ -14,6 +14,8 @@ const Profile = props => {
 
     const handleLogout = (e) => {
         localStorage.removeItem('token');
+        navigate('/login')
+        console.log("object")
         window.location.reload();
     }
 
