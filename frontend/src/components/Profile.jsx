@@ -16,8 +16,6 @@ const Profile = props => {
         localStorage.removeItem('token');
         navigate('/')
         console.log("object")
-        navigate('/login')
-        console.log("object")
         window.location.reload();
     }
 
@@ -79,7 +77,7 @@ const Profile = props => {
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
-            navigate('/login')
+            navigate('/')
         } else {
             getUser()
         }
