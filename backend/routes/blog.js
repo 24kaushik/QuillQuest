@@ -99,4 +99,46 @@ Router.get('/getuserblog', fetchUser, async (req, res) => {
     }
 })
 
+//Route 5: Update an existing blog using: /update/:id .Login required
+Router.get('/update/:id', [
+    body('title', 'Title must be atleast 4 characters long!').isLength({ min: 4 }),
+    body('title', 'Title must be shorter than 100 characters!').isLength({ max: 100 }),
+    body('content', 'Content must be atleast 10 characters long!').isLength({ min: 10 }),
+    body('content', 'Content must be shorter than 4000 characters!').isLength({ max: 4000 })
+], fetchUser, async (req, res) => {
+    try {
+        const {title, content} = req.body;
+        const blogID = req.params.id;
+        if (!blogID) {
+            return res.status(404).json({ success: false, error: "Please provide a valid blog id!" })
+        }
+        const userID = req.user.id;
+
+        // Checking if title and content meets the required criteria.
+        const newBlog = { title: req.body.title, content: req.body.content };
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, error: errors.array() })
+        }
+
+        // Checking if the blog is present.
+        const findBlog = await Blog.findById(blogID).select()
+
+        if (!findBlog) {
+            return res.status(400).json({ success: false, error: "The blog does not exists." })
+        } else if (findBlog.authorID != userID) {//Checking if the blog belongs to the user.
+            return res.status(401).json({ success: false, error: "You are not the owner of the blog!" })
+        }
+
+        const updatedBlog = await Blog.findByIdAndUpdate(blogID, { $set: newBlog }, { new: true })
+        res.status(200).json({ success: true, blog: updatedBlog })
+
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ success: false, error: "Internal server error!" })
+    }
+})
+
+
 module.exports = Router;
