@@ -49,7 +49,7 @@ Router.post('/create', fetchUser, [
         const user = await User.findById(userID).select('-password');
         if (user) {
             const username = user.username;
-            const blog = new Blog({ title, content, author: username });
+            const blog = new Blog({ title, content, author: username, authorID: userID });
             const saveBlog = await blog.save();
             return res.status(200).json({ success: true, blog: saveBlog });
         }
@@ -86,18 +86,16 @@ Router.get('/getuserblog', fetchUser, async (req, res) => {
     try {
         // Finding a user with the userID
         const userID = req.user.id;
-        const user = await User.findById(userID).select('-password');
-        if (user) {
-            success = true;
-            const blogs = await Blog.find({ author: user.username })
-            if (blogs.length!=0) {
-                res.status(200).json({ success: true, blogs })
+        if (userID) {
+            const blogs = await Blog.find({ authorID: userID })
+            if (blogs.length != 0) {
+                return res.status(200).json({ success: true, blogs })
             }
-            res.status(404).send({ success: false, error: "No blogs found!" })
+            return res.status(404).send({ success: false, error: "No blogs found!" })
         }
         res.status(401).send({ success: false, error: "Please authenticate using a valid token!" })
     } catch (error) {
-
+        res.status(500).json({ success: false, error: "Internal server error!" })
     }
 })
 
