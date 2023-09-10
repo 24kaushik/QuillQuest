@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import UserIMG from '../assets/user.png'
 import { useNavigate } from 'react-router-dom'
 import Error from './Error'
 import Loader from './Loader'
-import Blogcard from './Blogcard'
+import UserBlogcard from './UserBlogcard'
 
 const Profile = props => {
     const [loaded, setLoaded] = useState(false);
@@ -75,6 +75,50 @@ const Profile = props => {
 
     }
 
+    const showModal = useRef()
+    const closeModal = useRef()
+    const [newBlog, setNewBlog] = useState({ title: "", content: "" })
+    const [currentBlog, setCurrentBlog] = useState()
+    const [disabledSave, setDisabledSave] = useState(true);
+    const show = (prevContent, id) => {
+        setNewBlog(prevContent)
+        setCurrentBlog(id)
+        showModal.current.click()
+        document.getElementById('editTitle').value = prevContent.title;
+        document.getElementById('editContent').value = prevContent.content;
+    }
+
+    const handleChange = (e) => {
+        setNewBlog({ ...newBlog, [e.target.name]: e.target.value })
+    }
+
+    const handleSave = async (e) => {
+        e.preventDefault()
+        setDisabledSave(true)
+        try {
+            let response = await fetch(`https://quillquest-backend.vercel.app/blog/update/${currentBlog}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': localStorage.getItem('token')
+                },
+                body: JSON.stringify(newBlog)
+            })
+            let data = await response.json()
+            if (data.success) {
+                closeModal.current.click()
+                getBlogs()
+            } else if (!data.success) {
+                closeModal.current.click()
+                props.showAlert(data.error, "danger")
+            }
+        } catch (error) {
+            closeModal.current.click()
+            props.showAlert("Some unexpected error occured!")
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             navigate('/')
@@ -83,6 +127,22 @@ const Profile = props => {
         }
 
     }, [])
+
+    useEffect(() => {
+        let titleIsValid = false;
+        let contentIsValid = false;
+
+        if (newBlog.title && newBlog.title.length > 4 && newBlog.title.length < 100) {
+            titleIsValid = true;
+        }
+
+        if (newBlog.content && newBlog.content.length > 10 && newBlog.content.length < 4000) {
+            contentIsValid = true;
+        }
+
+        setDisabledSave(!(titleIsValid && contentIsValid));
+    }, [newBlog]);
+
 
     return (
         <div className='container'>
@@ -94,7 +154,41 @@ const Profile = props => {
                 <button className='btn btn-danger my-2 mx-auto block' onClick={handleLogout}>Logout</button>
                 <h2 className='text-5xl font-josefins mt-14 ml-3'>User blogs:</h2></>}
             {errorCmp && <Error text={errorCmp} />}
-            {user && blogs && <div className='flex mt-4 flex-wrap gap-4 justify-center'>{blogs.map(e => <Blogcard title={e.title} content={e.content} author={e.author} id={e._id} key={e._id} />)}</div>}
+            {user && blogs && <div className='flex mt-4 flex-wrap gap-4 justify-center'>{blogs.map(e => <UserBlogcard show={show} title={e.title} content={e.content} author={e.author} id={e._id} key={e._id} />)}</div>}
+            {user && blogs && <div>
+                {/* <!-- Button trigger modal --> */}
+                <button ref={showModal} type="button" className="btn btn-primary hidden" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button>
+
+                {/* <!-- Modal --> */}
+                <form>
+                    <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Edit Blog</h1>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleFormControlInput1" className="form-label">Title</label>
+                                        <input name="title" onChange={handleChange} type="text" className="form-control" id="editTitle" minLength={4} maxLength={100} required />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="exampleFormControlTextarea1" className="form-label">Content</label>
+                                        <textarea name="content" onChange={handleChange} className="form-control text-sm" rows={10} id="editContent" minLength={10} maxLength={4000} required></textarea>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary bg-gray-500" data-bs-dismiss="modal" ref={closeModal}>Close</button>
+                                    <button type="submit" className="btn btn-primary bg-blue-600" onClick={handleSave} disabled={disabledSave}>Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>}
         </div>
     )
 }
