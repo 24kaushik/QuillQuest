@@ -100,7 +100,7 @@ Router.get('/getuserblog', fetchUser, async (req, res) => {
 })
 
 //Route 5: Update an existing blog using: /update/:id .Login required
-Router.get('/update/:id', [
+Router.post('/update/:id', [
     body('title', 'Title must be atleast 4 characters long!').isLength({ min: 4 }),
     body('title', 'Title must be shorter than 100 characters!').isLength({ max: 100 }),
     body('content', 'Content must be atleast 10 characters long!').isLength({ min: 10 }),
