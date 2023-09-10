@@ -45,8 +45,8 @@ const SignUp = (props) => {
 
 
   return (
-    <div className='container'>
-      <h1 className='mb-10 text-4xl font-bold'>Create an account.</h1>
+    <div className='container mt-16'>
+      <h1 className='mb-10 text-4xl sm:text-5xl font-bold'>Create an account.</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>

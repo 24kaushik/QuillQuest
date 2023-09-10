@@ -43,8 +43,8 @@ const Login = (props) => {
     }
 
     return (
-        <div className='container pt-3'>
-            <h1 className='text-4xl mb-10 font-bold'>Login to write blogs.</h1>
+        <div className='container pt-3 mt-16'>
+            <h1 className='text-4xl sm:text-5xl mb-10 font-bold'>Login to write blogs.</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username</label>

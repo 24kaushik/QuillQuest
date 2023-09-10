@@ -58,7 +58,7 @@ const Writeblog = (props) => {
 
     return (
         <>
-            <div className='container min-h-[60vh]'>
+            <div className='container min-h-[60vh] mt-16'>
                 <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label font-outfit text-xl font-medium ml-1">Blog Title</label>
                     <input type="text" className="form-control" id="title" placeholder='Enter your title here (minimum: 5)...' name='title' onChange={handleChange} min="5" />

@@ -165,7 +165,7 @@ const Profile = props => {
   }, [newBlog]);
 
   return (
-    <div className='container'>
+    <div className='container mt-16'>
       {!loaded && <Loader />}
       {user && <><h1 className='text-center text-8xl font-josefins mb-4'>Profile</h1>
         <img src={UserIMG} className='w-36 m-auto mb-2' alt="" />
