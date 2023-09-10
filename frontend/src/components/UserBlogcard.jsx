@@ -4,12 +4,16 @@ import { Link } from 'react-router-dom'
 const UserBlogcard = (props) => {
     const { title, content, author, id } = props;
     const handleEdit = () => {
-        props.show({title, content}, id)
+        props.show({ title, content }, id)
     }
 
+    const handleDelete = async(e) => {
+        e.preventDefault()
+        const sure = await confirm("Are you sure? This blog will be gone forever!")
+        props.deleteBlog(id)
+    }
     return (
         <>
-
             <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title.length > 70 ? title.slice(0, 69) + "..." : title}</h5>
                 <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">{content.length > 380 ? content.slice(0, 379) + "..." : content}</p>
@@ -23,7 +27,7 @@ const UserBlogcard = (props) => {
                     </Link>
                     <div>
                         <button className='btn btn-md btn-warning text-white mx-1' onClick={handleEdit}>Edit</button>
-                        <button className='btn btn-md btn-danger text-white mx-1'>Delete</button>
+                        <button className='btn btn-md btn-danger text-white mx-1' onClick={handleDelete}>Delete</button>
                     </div>
                 </div>
             </div>
