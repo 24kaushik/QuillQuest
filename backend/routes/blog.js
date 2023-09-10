@@ -107,7 +107,7 @@ Router.post('/update/:id', [
     body('content', 'Content must be shorter than 4000 characters!').isLength({ max: 4000 })
 ], fetchUser, async (req, res) => {
     try {
-        const {title, content} = req.body;
+        const { title, content } = req.body;
         const blogID = req.params.id;
         if (!blogID) {
             return res.status(404).json({ success: false, error: "Please provide a valid blog id!" })
@@ -133,6 +133,34 @@ Router.post('/update/:id', [
 
         const updatedBlog = await Blog.findByIdAndUpdate(blogID, { $set: newBlog }, { new: true })
         res.status(200).json({ success: true, blog: updatedBlog })
+
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ success: false, error: "Internal server error!" })
+    }
+})
+
+//Route 6: Delete a blog using: /delete/:id . Login required!
+Router.delete('/delete/:id', fetchUser, async (req, res) => {
+    try {
+        const blogID = req.params.id;
+        const userID = req.user.id;
+
+        //Checking if the blog exists.
+        try {
+            const blog = await Blog.findById(blogID);
+            //Checking if the blog belongs to the user.
+            if (blog.authorID != userID) {
+                return res.status(401).json({ success: false, error: "You are not the owner of the blog." })
+            }
+        } catch (error) {
+            return res.status(400).json({ success: false, error: "The blog does not exists." })
+        }
+
+
+        //Deleting the blog.
+        const dBlog = await Blog.findByIdAndDelete(blogID);
+        res.status(200).json({ success: true, message: 'The blog has been deleted successfully.' })
 
     } catch (error) {
         console.log(error.message)
